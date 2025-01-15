@@ -1,10 +1,8 @@
 package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
-import med.voll.api.medic.DataListDoctor;
-import med.voll.api.medic.DataMedicRegistry;
-import med.voll.api.medic.Doctor;
-import med.voll.api.medic.DoctorRepository;
+import jakarta.validation.Valid;
+import med.voll.api.medic.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +18,23 @@ public class DoctorController {
     private DoctorRepository repository;
     @PostMapping
     @Transactional
-    public void register(@RequestBody DataMedicRegistry data) {
+    public void register(@RequestBody @Valid DataMedicRegistry data) {
         repository.save(new Doctor(data));
     }
     @GetMapping
     public Page<DataListDoctor> read(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
-        return repository.findAll(pagination).map(DataListDoctor::new);
+        return repository.findAllByActiveTrue(pagination).map(DataListDoctor::new);
+    }
+    @PutMapping
+    @Transactional
+    public void update(@RequestBody @Valid DataMedicUpdate data) {
+        var doctor = repository.getReferenceById(data.id());
+        doctor.updateInfo(data);
+    }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void delete(@PathVariable Long id) {
+        var doctor = repository.getReferenceById(id);
+        doctor.delete();
     }
 }

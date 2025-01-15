@@ -1,0 +1,6 @@
+
+ALTER TABLE patients ADD COLUMN ativo BOOLEAN;
+
+UPDATE patients SET ativo = TRUE;
+
+ALTER TABLE patients ALTER COLUMN ativo SET NOT NULL;

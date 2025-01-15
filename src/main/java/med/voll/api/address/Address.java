@@ -27,4 +27,28 @@ public class Address {
         this.complement = data.complement();
         this.number = data.number();
     }
+
+    public void updateInfo(AddressData data) {
+        if(data.publicPlace() != null) {
+            this.publicPlace = data.publicPlace();
+        }
+        if(data.neighborhood() != null) {
+            this.neighborhood = data.neighborhood();
+        }
+        if(data.zipCode() != null) {
+            this.zipCode = data.zipCode();
+        }
+        if(data.city() != null) {
+            this.city = data.city();
+        }
+        if(data.uf() != null) {
+            this.uf = data.uf();
+        }
+        if(data.complement() != null) {
+            this.complement = data.complement();
+        }
+        if(data.number() != null) {
+            this.number = data.number();
+        }
+    }
 }
