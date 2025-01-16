@@ -1,7 +1,6 @@
-package med.voll.api.patient;
+package med.voll.api.domain.patient;
 
-import med.voll.api.address.Address;
-import med.voll.api.medic.DataDetailDoctor;
+import med.voll.api.domain.address.Address;
 
 public record DataPatientDetail(String name, String email, String telephone, String cpf, Address address) {
     public DataPatientDetail(Patient patient) {

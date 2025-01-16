@@ -1,40 +1,42 @@
-package med.voll.api.patient;
+package med.voll.api.domain.medic;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.address.Address;
+import med.voll.api.domain.address.Address;
 
+@Table(name = "doctors")
+@Entity(name = "Doctor")
 @Getter
-@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Patient")
-@Table(name = "patients")
-public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@EqualsAndHashCode(of = "id")
+public class Doctor {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String email;
-    private String cpf;
     private String telephone;
+    private String crm;
+    @Enumerated(EnumType.STRING)
+    private Specialties specialty;
     @Embedded
     private Address address;
     private boolean active;
-    public Patient(PatientDataRegistry data) {
+
+    public Doctor(DataMedicRegistry data) {
         this.active = true;
         this.name = data.name();
         this.email = data.email();
         this.telephone = data.telephone();
-        this.cpf = data.cpf();
+        this.crm = data.crm();
+        this.specialty = data.Specialty();
         this.address = new Address(data.address());
     }
 
-    public void updateInfo(DataPatientUpdate data) {
+    public void updateInfo(DataMedicUpdate data) {
         if(data.name() != null){
             this.name = data.name();
         }
@@ -46,7 +48,8 @@ public class Patient {
         }
 
     }
-    public void inactive() {
+
+    public void delete() {
         this.active = false;
     }
 }
