@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -46,6 +47,7 @@ public class DoctorController {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity detail(@PathVariable Long id) {
         var doctor = repository.getReferenceById(id);
         return ResponseEntity.ok(new DataDetailDoctor(doctor));

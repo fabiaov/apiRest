@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import med.voll.api.domain.user.DataAuthentication;
 import med.voll.api.domain.user.User;
 import med.voll.api.infra.security.TokenService;
-import med.voll.api.security.DataTokenJWT;
+import med.voll.api.infra.security.DataTokenJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,10 +25,15 @@ public class AutenticationController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity login(@RequestBody @Valid DataAuthentication data) {
-        var authenticationToken = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var authentication = manager.authenticate(authenticationToken);
-        var tokenJWT = tokenService.gerarToken((User)authentication.getPrincipal());
-        return ResponseEntity.ok(new DataTokenJWT(tokenJWT));
+    public ResponseEntity doLogin(@RequestBody @Valid DataAuthentication data) {
+        try {
+            var authenticationToken = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+            var authentication = manager.authenticate(authenticationToken);
+            var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
+            return ResponseEntity.ok(new DataTokenJWT(tokenJWT));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
