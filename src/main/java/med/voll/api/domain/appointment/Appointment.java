@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.voll.api.domain.appointment.validations.cancel.CancelReason;
 import med.voll.api.domain.medic.Doctor;
 import med.voll.api.domain.patient.Patient;
 

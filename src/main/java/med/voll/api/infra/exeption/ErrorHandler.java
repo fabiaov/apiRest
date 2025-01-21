@@ -1,6 +1,7 @@
 package med.voll.api.infra.exeption;
 
 import jakarta.persistence.EntityNotFoundException;
+import med.voll.api.domain.ValidationExcepetion;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -19,9 +20,13 @@ public class ErrorHandler {
         return ResponseEntity.notFound().build();
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity HandleError400(MethodArgumentNotValidException ex) {
+    public ResponseEntity handleError400(MethodArgumentNotValidException ex) {
         var errors = ex.getFieldErrors();
         return ResponseEntity.badRequest().body(errors.stream().map(DataErrorValidation::new).toList());
+    }
+    @ExceptionHandler(ValidationExcepetion.class)
+    public ResponseEntity handleErrorBusinessRule(ValidationExcepetion ex) {
+       return ResponseEntity.badRequest().body(ex.getMessage());
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity errorHandleMessage400(HttpMessageNotReadableException ex) {
