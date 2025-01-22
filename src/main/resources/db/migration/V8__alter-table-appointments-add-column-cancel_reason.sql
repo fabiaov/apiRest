@@ -1,1 +1,1 @@
-ALTER TABLE consultas ADD COLUMN motivo_cancelamento VARCHAR(100);
+ALTER TABLE appointments ADD COLUMN cancel_reason VARCHAR(100);

@@ -39,7 +39,7 @@ public class AppointmentSchedule {
         if (doctor == null){
             throw new ValidationExcepetion("There are no doctors available at this date!");
         }
-        var schedule = new Appointment(null, doctor, patient, data.date(),null);
+        var schedule = new Appointment (null, doctor, patient, data.date(), null);
         appointmentRepository.save(schedule);
         return new DataDetailAppointment(schedule);
     }
